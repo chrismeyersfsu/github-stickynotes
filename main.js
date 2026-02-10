@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Notification } = require('electron');
+const { app, BrowserWindow, ipcMain, Notification, shell } = require('electron');
 const path = require('path');
 const { Octokit } = require('@octokit/rest');
 const config = require('./config');
@@ -12,8 +12,9 @@ function createWindow() {
     width: 1000,
     height: 700,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
     }
   });
 
@@ -105,7 +106,7 @@ ipcMain.handle('get-conversations', async () => {
   }
 });
 
-ipcMain.handle('get-conversation-comments', async (event, owner, repo, number, type) => {
+ipcMain.handle('get-conversation-comments', async (event, owner, repo, issueNumber, type) => {
   if (!octokit) {
     throw new Error('GitHub token not configured');
   }
@@ -118,7 +119,7 @@ ipcMain.handle('get-conversation-comments', async (event, owner, repo, number, t
     const comments = await endpoint({
       owner,
       repo,
-      issue_number: number,
+      issue_number: issueNumber,
       per_page: 100
     });
 
@@ -134,6 +135,10 @@ ipcMain.handle('get-conversation-comments', async (event, owner, repo, number, t
     console.error('Error fetching comments:', error);
     throw error;
   }
+});
+
+ipcMain.handle('open-external', async (event, url) => {
+  shell.openExternal(url);
 });
 
 async function checkForNewReplies() {

@@ -1,5 +1,3 @@
-const { ipcRenderer } = require('electron');
-
 let conversations = [];
 let filters = {
   issues: true,
@@ -33,7 +31,7 @@ async function loadConversations() {
   containerEl.innerHTML = '';
 
   try {
-    conversations = await ipcRenderer.invoke('get-conversations');
+    conversations = await window.electronAPI.getConversations();
     renderConversations();
     loadingEl.style.display = 'none';
   } catch (error) {
@@ -102,7 +100,7 @@ function createStickyNote(conversation) {
 }
 
 function openInBrowser(url) {
-  require('electron').shell.openExternal(url);
+  window.electronAPI.openExternal(url);
 }
 
 function getTimeAgo(date) {
