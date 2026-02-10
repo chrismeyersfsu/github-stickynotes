@@ -14,8 +14,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
-    },
-    icon: path.join(__dirname, 'assets/icon.png')
+    }
   });
 
   mainWindow.loadFile('index.html');
@@ -163,8 +162,7 @@ function showNotification(title, repo) {
   if (Notification.isSupported()) {
     new Notification({
       title: `New reply in ${repo}`,
-      body: title,
-      icon: path.join(__dirname, 'assets/icon.png')
+      body: title
     }).show();
   }
 }
