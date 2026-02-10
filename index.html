@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub StickyNotes</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🗒️ GitHub StickyNotes</h1>
+      <div class="header-controls">
+        <button id="refresh-btn" class="btn btn-primary">🔄 Refresh</button>
+        <div class="filter-controls">
+          <label>
+            <input type="checkbox" id="filter-issues" checked> Issues
+          </label>
+          <label>
+            <input type="checkbox" id="filter-prs" checked> Pull Requests
+          </label>
+        </div>
+      </div>
+    </header>
+
+    <div id="error-message" class="error-message" style="display: none;"></div>
+    
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading conversations...</p>
+    </div>
+
+    <div id="sticky-notes-container" class="sticky-notes-container"></div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
